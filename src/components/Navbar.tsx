@@ -38,6 +38,11 @@ export const Navbar = () => {
           </Link>
 
           <div className="flex items-center space-x-4">
+            <Link to="/appointment">
+              <Button variant="ghost">
+                Agendar Cita
+              </Button>
+            </Link>
             <Button
               variant="ghost"
               onClick={handleLogout}
