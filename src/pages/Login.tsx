@@ -1,75 +1,110 @@
-import { useState, useEffect } from "react";
-import { useNavigate } from "react-router-dom";
-import { Auth } from "@supabase/auth-ui-react";
-import { ThemeSupa } from "@supabase/auth-ui-shared";
+import { useState } from "react";
+import { Link } from "react-router-dom";
 import { supabase } from "@/integrations/supabase/client";
-import { Alert, AlertDescription } from "@/components/ui/alert";
-import { AuthError } from "@supabase/supabase-js";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import { useToast } from "@/components/ui/use-toast";
+import { ThemeToggle } from "@/components/ThemeToggle";
 
 const Login = () => {
-  const navigate = useNavigate();
-  const [errorMessage, setErrorMessage] = useState("");
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [loading, setLoading] = useState(false);
+  const { toast } = useToast();
 
-  useEffect(() => {
-    const { data: { subscription } } = supabase.auth.onAuthStateChange(async (event, session) => {
-      if (event === "SIGNED_IN") {
-        navigate("/");
-      }
-    });
+  const handleLogin = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setLoading(true);
 
-    return () => subscription.unsubscribe();
-  }, [navigate]);
+    try {
+      const { error } = await supabase.auth.signInWithPassword({
+        email,
+        password,
+      });
+
+      if (error) throw error;
+
+      toast({
+        title: "¡Bienvenido de vuelta!",
+        description: "Has iniciado sesión exitosamente.",
+      });
+    } catch (error: any) {
+      toast({
+        variant: "destructive",
+        title: "Error al iniciar sesión",
+        description: error.message,
+      });
+    } finally {
+      setLoading(false);
+    }
+  };
 
   return (
-    <div className="min-h-screen flex flex-col items-center justify-center bg-background p-4">
-      <div className="w-full max-w-md space-y-8">
-        <div className="flex flex-col items-center">
+    <div className="min-h-screen bg-background flex flex-col">
+      <nav className="p-4 flex justify-between items-center">
+        <Link to="/" className="flex items-center space-x-2">
           <img
             src="/lovable-uploads/169b4edb-9156-4731-84ee-a0ae1a0b8de7.png"
-            alt="Logo"
-            className="h-20 w-auto mb-6"
+            alt="Medicans"
+            className="h-8"
           />
+        </Link>
+        <ThemeToggle />
+      </nav>
+
+      <div className="flex-1 flex items-center justify-center px-4">
+        <div className="w-full max-w-sm space-y-8">
+          <div className="text-center">
+            <h2 className="text-2xl font-bold">Iniciar Sesión</h2>
+            <p className="text-muted-foreground mt-2">
+              Ingresa tus credenciales para continuar
+            </p>
+          </div>
+
+          <form onSubmit={handleLogin} className="space-y-6">
+            <div className="space-y-2">
+              <Label htmlFor="email">Correo Electrónico</Label>
+              <Input
+                id="email"
+                type="email"
+                placeholder="correo@ejemplo.com"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                required
+              />
+            </div>
+
+            <div className="space-y-2">
+              <Label htmlFor="password">Contraseña</Label>
+              <Input
+                id="password"
+                type="password"
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+                required
+              />
+            </div>
+
+            <Button
+              type="submit"
+              className="w-full"
+              disabled={loading}
+            >
+              {loading ? "Iniciando sesión..." : "Iniciar Sesión"}
+            </Button>
+          </form>
+
+          <p className="text-center text-sm">
+            ¿No tienes una cuenta?{" "}
+            <Link
+              to="/register"
+              className="font-medium text-primary hover:underline"
+            >
+              Regístrate
+            </Link>
+          </p>
         </div>
-
-        {errorMessage && (
-          <Alert variant="destructive">
-            <AlertDescription>{errorMessage}</AlertDescription>
-          </Alert>
-        )}
-
-        <div className="bg-card p-8 rounded-lg shadow-lg">
-          <Auth
-            supabaseClient={supabase}
-            view="sign_in"
-            appearance={{
-              theme: ThemeSupa,
-              variables: {
-                default: {
-                  colors: {
-                    brand: '#2B5BA7',
-                    brandAccent: '#1A1F2C',
-                  },
-                },
-              },
-            }}
-            localization={{
-              variables: {
-                sign_in: {
-                  email_label: "Correo electrónico",
-                  password_label: "Contraseña",
-                  button_label: "Iniciar sesión",
-                  loading_button_label: "Iniciando sesión...",
-                  social_provider_text: "Iniciar sesión con {{provider}}",
-                  link_text: "¿Ya tienes una cuenta? Inicia sesión",
-                },
-              },
-            }}
-          />
-        </div>
-
-        <p className="text-center text-sm text-muted-foreground">
-          © {new Date().getFullYear()} Medicans. Todos los derechos reservados.
-        </p>
       </div>
     </div>
   );
