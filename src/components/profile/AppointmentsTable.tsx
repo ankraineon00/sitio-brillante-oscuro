@@ -12,6 +12,8 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import { Search } from "lucide-react";
+import { format } from "date-fns";
+import { es } from "date-fns/locale";
 
 interface Appointment {
   id: string;
@@ -64,18 +66,19 @@ export const AppointmentsTable = () => {
                 <TableHead>Mascota</TableHead>
                 <TableHead>Razón</TableHead>
                 <TableHead>Fecha</TableHead>
+                <TableHead>Hora</TableHead>
               </TableRow>
             </TableHeader>
             <TableBody>
               {isLoading ? (
                 <TableRow>
-                  <TableCell colSpan={3} className="text-center">
+                  <TableCell colSpan={4} className="text-center">
                     Cargando...
                   </TableCell>
                 </TableRow>
               ) : filteredAppointments?.length === 0 ? (
                 <TableRow>
-                  <TableCell colSpan={3} className="text-center">
+                  <TableCell colSpan={4} className="text-center">
                     No hay citas programadas
                   </TableCell>
                 </TableRow>
@@ -85,7 +88,10 @@ export const AppointmentsTable = () => {
                     <TableCell>{appointment.pet_name}</TableCell>
                     <TableCell>{appointment.reason}</TableCell>
                     <TableCell>
-                      {new Date(appointment.appointment_date).toLocaleDateString()}
+                      {format(new Date(appointment.appointment_date), "dd/MM/yyyy", { locale: es })}
+                    </TableCell>
+                    <TableCell>
+                      {format(new Date(appointment.appointment_date), "HH:mm", { locale: es })}
                     </TableCell>
                   </TableRow>
                 ))

@@ -9,17 +9,20 @@ import { useToast } from "@/components/ui/use-toast";
 import { es } from "date-fns/locale";
 import { Navbar } from "@/components/Navbar";
 import { ProfileFooter } from "@/components/profile/ProfileFooter";
+import { supabase } from "@/integrations/supabase/client";
+import { format } from "date-fns";
 
 const Appointment = () => {
   const [date, setDate] = useState<Date | undefined>(undefined);
+  const [time, setTime] = useState("");
   const [petName, setPetName] = useState("");
   const [reason, setReason] = useState("");
   const { toast } = useToast();
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
-    if (!date || !petName || !reason) {
+    if (!date || !time || !petName || !reason) {
       toast({
         variant: "destructive",
         title: "Error",
@@ -28,11 +31,44 @@ const Appointment = () => {
       return;
     }
 
-    // TODO: Implement appointment creation with Supabase
-    toast({
-      title: "Cita agendada",
-      description: "Tu cita ha sido agendada exitosamente",
-    });
+    try {
+      // Combine date and time
+      const dateTime = new Date(date);
+      const [hours, minutes] = time.split(":");
+      dateTime.setHours(parseInt(hours), parseInt(minutes));
+
+      const { data: { user } } = await supabase.auth.getUser();
+      if (!user) throw new Error("No user found");
+
+      const { error } = await supabase
+        .from("appointments")
+        .insert({
+          pet_name: petName,
+          reason: reason,
+          appointment_date: dateTime.toISOString(),
+          user_id: user.id
+        });
+
+      if (error) throw error;
+
+      toast({
+        title: "Cita agendada",
+        description: "Tu cita ha sido agendada exitosamente",
+      });
+
+      // Reset form
+      setDate(undefined);
+      setTime("");
+      setPetName("");
+      setReason("");
+    } catch (error) {
+      console.error("Error creating appointment:", error);
+      toast({
+        variant: "destructive",
+        title: "Error",
+        description: "Hubo un error al agendar la cita",
+      });
+    }
   };
 
   return (
@@ -56,6 +92,18 @@ const Appointment = () => {
                   onSelect={setDate}
                   locale={es}
                   className="rounded-md border flex justify-center"
+                />
+              </div>
+
+              <div className="space-y-2">
+                <Label htmlFor="time">Hora de la cita</Label>
+                <Input
+                  id="time"
+                  type="time"
+                  value={time}
+                  onChange={(e) => setTime(e.target.value)}
+                  min="09:00"
+                  max="18:00"
                 />
               </div>
 
