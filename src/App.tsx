@@ -10,6 +10,7 @@ import Index from "./pages/Index";
 import Login from "./pages/Login";
 import Register from "./pages/Register";
 import Appointment from "./pages/Appointment";
+import Profile from "./pages/Profile";
 
 const queryClient = new QueryClient();
 
@@ -40,6 +41,16 @@ const App = () => {
                 element={
                   isAuthenticated ? (
                     <Appointment />
+                  ) : (
+                    <Navigate to="/login" replace />
+                  )
+                }
+              />
+              <Route
+                path="/profile"
+                element={
+                  isAuthenticated ? (
+                    <Profile />
                   ) : (
                     <Navigate to="/login" replace />
                   )
