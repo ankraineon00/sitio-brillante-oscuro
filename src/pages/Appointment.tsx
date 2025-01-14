@@ -11,8 +11,10 @@ import { Navbar } from "@/components/Navbar";
 import { ProfileFooter } from "@/components/profile/ProfileFooter";
 import { supabase } from "@/integrations/supabase/client";
 import { format } from "date-fns";
+import { useNavigate } from "react-router-dom";
 
 const Appointment = () => {
+  const navigate = useNavigate();
   const [date, setDate] = useState<Date | undefined>(undefined);
   const [time, setTime] = useState("");
   const [petName, setPetName] = useState("");
@@ -56,11 +58,12 @@ const Appointment = () => {
         description: "Tu cita ha sido agendada exitosamente",
       });
 
-      // Reset form
+      // Reset form and navigate to profile
       setDate(undefined);
       setTime("");
       setPetName("");
       setReason("");
+      navigate("/profile");
     } catch (error) {
       console.error("Error creating appointment:", error);
       toast({
