@@ -33,7 +33,7 @@ export const Navbar = () => {
             <img
               src="/lovable-uploads/169b4edb-9156-4731-84ee-a0ae1a0b8de7.png"
               alt="Medicans"
-              className="h-8"
+              className="w-[165px]"
             />
           </Link>
 

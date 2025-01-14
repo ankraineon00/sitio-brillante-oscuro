@@ -1,10 +1,16 @@
 import { useState, useEffect } from "react";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 
-const images = [
+/*const images = [
   "https://images.unsplash.com/photo-1582562124811-c09040d0a901",
   "https://images.unsplash.com/photo-1535268647677-300dbf3d78d1",
   "https://images.unsplash.com/photo-1466721591366-2d5fba72006d",
+];*/
+
+const images = [
+  "https://images.unsplash.com/photo-1576201836106-db1758fd1c97",
+  "https://images.unsplash.com/photo-1629909613654-28e377c37b09",
+  "https://images.unsplash.com/photo-1628009368231-7bb7cfcb0def"
 ];
 
 const texts = [

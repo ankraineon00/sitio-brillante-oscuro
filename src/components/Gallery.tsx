@@ -1,12 +1,21 @@
 import { useState } from "react";
 
-const images = [
+/*const images = [
   "https://images.unsplash.com/photo-1441057206919-63d19fac2369",
   "https://images.unsplash.com/photo-1465379944081-7f47de8d74ac",
   "https://images.unsplash.com/photo-1501286353178-1ec881214838",
   "https://images.unsplash.com/photo-1469041797191-50ace28483c3",
   "https://images.unsplash.com/photo-1452378174528-3090a4bba7b2",
   "https://images.unsplash.com/photo-1487252665478-49b61b47f302",
+];*/
+
+const images = [
+  "/gallery/gallery-1.jpg",
+  "/gallery/gallery-2.jpg",
+  "/gallery/gallery-3.jpg",
+  "/gallery/gallery-4.jpg",
+  "/gallery/gallery-5.png",
+  "/gallery/gallery-6.jpg",
 ];
 
 export function Gallery() {

@@ -42,19 +42,21 @@ const Login = () => {
 
   return (
     <div className="min-h-screen bg-background flex flex-col">
-      <nav className="p-4 flex justify-between items-center">
-        <Link to="/" className="flex items-center space-x-2">
-          <img
-            src="/lovable-uploads/169b4edb-9156-4731-84ee-a0ae1a0b8de7.png"
-            alt="Medicans"
-            className="h-8"
-          />
-        </Link>
+      <nav className="p-4 flex items-center justify-end">
         <ThemeToggle />
       </nav>
 
       <div className="flex-1 flex items-center justify-center px-4">
         <div className="w-full max-w-sm space-y-8">
+          <div className="flex justify-center">
+            <Link to="/" className="flex items-center space-x-2">
+              <img
+                src="/lovable-uploads/169b4edb-9156-4731-84ee-a0ae1a0b8de7.png"
+                alt="Medicans"
+                className="w-[185px]"
+              />
+            </Link>
+          </div>
           <div className="text-center">
             <h2 className="text-2xl font-bold">Iniciar Sesión</h2>
             <p className="text-muted-foreground mt-2">
@@ -80,6 +82,7 @@ const Login = () => {
               <Input
                 id="password"
                 type="password"
+                placeholder="Contraseña"
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
                 required
@@ -104,7 +107,10 @@ const Login = () => {
               Regístrate
             </Link>
           </p>
-        </div>
+        </div>  
+      </div>
+      <div className="w-full flex justify-center mb-10">
+        <p>&copy; 2025 - Medicans Veterinaria</p>
       </div>
     </div>
   );
