@@ -8,6 +8,7 @@ import { Textarea } from "@/components/ui/textarea";
 import { useToast } from "@/components/ui/use-toast";
 import { es } from "date-fns/locale";
 import { Navbar } from "@/components/Navbar";
+import { ProfileFooter } from "@/components/profile/ProfileFooter";
 
 const Appointment = () => {
   const [date, setDate] = useState<Date | undefined>(undefined);
@@ -37,7 +38,7 @@ const Appointment = () => {
   return (
     <div className="w-full min-h-screen flex flex-col">
       <Navbar />
-      <div className="container mx-auto px-4 pt-20 pb-8">
+      <div className="container mx-auto px-4 my-5 pt-20 pb-8">
         <Card className="max-w-2xl mx-auto">
           <CardHeader>
             <CardTitle>Agendar Cita</CardTitle>
@@ -86,6 +87,7 @@ const Appointment = () => {
           </CardContent>
         </Card>
       </div>
+      <ProfileFooter />
     </div>
   );
 };

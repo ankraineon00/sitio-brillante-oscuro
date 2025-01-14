@@ -39,7 +39,7 @@ export function Footer() {
           </div>
         </div>
         <div className="mt-8 pt-8 border-t border-white/20 text-center flex justify-between">
-          <p>&copy; {new Date().getFullYear()} Medicans. Todos los derechos reservados.</p>
+          <p>&copy; {new Date().getFullYear()} Medicans Hospital Veterinario</p>
           <a href="https://www.jc-roman.com" target="_blank">
             <p>Designed by JC-Roman</p>
           </a>

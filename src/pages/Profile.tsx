@@ -36,7 +36,8 @@ const Profile = () => {
   return (
     <div className="min-h-screen bg-background">
       <Navbar />
-      <main className="container mx-auto px-4 py-8">
+      {/*<main className="container mx-auto px-4 py-8 min-h-screen">*/}
+      <main className="container mx-auto mt-14 px-4 py-8 min-h-screen">
         <UserDashboard email={userEmail} name={userName} />
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 mt-8">
           <PasswordChange />

@@ -30,7 +30,7 @@ export const Navbar = () => {
     try {
       const { error } = await supabase.auth.signOut();
       if (error) throw error;
-      
+
       toast({
         title: "Sesión cerrada",
         description: "Has cerrado sesión exitosamente.",
@@ -49,8 +49,13 @@ export const Navbar = () => {
       <div className="container mx-auto px-4">
         <div className="flex items-center justify-between h-16">
           <Link to="/" className="flex items-center space-x-2">
-            <img
+            {/*<img
               src="/lovable-uploads/169b4edb-9156-4731-84ee-a0ae1a0b8de7.png"
+              alt="Medicans"
+              className="w-[165px]"
+            />*/}
+            <img
+              src="/images/logo.png"
               alt="Medicans"
               className="w-[165px]"
             />
@@ -59,11 +64,6 @@ export const Navbar = () => {
           <div className="flex items-center space-x-4">
             {isAuthenticated && (
               <>
-                <Link to="/appointment">
-                  <Button variant="ghost">
-                    Agendar Cita
-                  </Button>
-                </Link>
                 <Link to="/profile" className="flex items-center">
                   <Avatar className="h-8 w-8">
                     <AvatarImage src={avatarUrl || ""} />
@@ -71,6 +71,11 @@ export const Navbar = () => {
                       <User className="h-4 w-4" />
                     </AvatarFallback>
                   </Avatar>
+                </Link>
+                <Link to="/appointment">
+                  <Button variant="ghost">
+                    Agendar Cita
+                  </Button>
                 </Link>
               </>
             )}

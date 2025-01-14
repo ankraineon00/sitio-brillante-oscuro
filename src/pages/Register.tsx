@@ -57,7 +57,7 @@ const Register = () => {
           <div className="flex justify-center">
             <Link to="/" className="flex items-center space-x-2">
               <img
-                src="/lovable-uploads/169b4edb-9156-4731-84ee-a0ae1a0b8de7.png"
+                src="/images/logo.png"
                 alt="Medicans"
                 className="w-[185px]"
               />
@@ -128,7 +128,7 @@ const Register = () => {
         </div>
       </div>
       <div className="w-full flex justify-center mb-5 mt-6">
-        <p>&copy; 2025 - Medicans Veterinaria</p>
+        <p>&copy; {new Date().getFullYear()} Medicans Hospital Veterinario</p>
       </div>
     </div>
   );
