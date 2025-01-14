@@ -1,9 +1,9 @@
 import { useEffect, useState } from "react";
 import { Navbar } from "@/components/Navbar";
-import { Footer } from "@/components/Footer";
 import { UserDashboard } from "@/components/profile/UserDashboard";
 import { AppointmentsTable } from "@/components/profile/AppointmentsTable";
 import { PasswordChange } from "@/components/profile/PasswordChange";
+import { ProfileFooter } from "@/components/profile/ProfileFooter";
 import { supabase } from "@/integrations/supabase/client";
 import { useNavigate } from "react-router-dom";
 
@@ -43,7 +43,7 @@ const Profile = () => {
           <AppointmentsTable />
         </div>
       </main>
-      <Footer />
+      <ProfileFooter />
     </div>
   );
 };

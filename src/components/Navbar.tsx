@@ -4,14 +4,25 @@ import { Button } from "./ui/button";
 import { supabase } from "@/integrations/supabase/client";
 import { useToast } from "./ui/use-toast";
 import { useEffect, useState } from "react";
+import { Avatar, AvatarFallback, AvatarImage } from "./ui/avatar";
+import { User } from "lucide-react";
 
 export const Navbar = () => {
   const { toast } = useToast();
   const [isAuthenticated, setIsAuthenticated] = useState(false);
+  const [avatarUrl, setAvatarUrl] = useState<string | null>(null);
 
   useEffect(() => {
-    supabase.auth.onAuthStateChange((event, session) => {
+    supabase.auth.onAuthStateChange(async (event, session) => {
       setIsAuthenticated(!!session);
+      if (session?.user) {
+        const { data } = await supabase
+          .from("profiles")
+          .select("avatar_url")
+          .eq("id", session.user.id)
+          .single();
+        setAvatarUrl(data?.avatar_url);
+      }
     });
   }, []);
 
@@ -47,11 +58,21 @@ export const Navbar = () => {
 
           <div className="flex items-center space-x-4">
             {isAuthenticated && (
-              <Link to="/appointment">
-                <Button variant="ghost">
-                  Agendar Cita
-                </Button>
-              </Link>
+              <>
+                <Link to="/appointment">
+                  <Button variant="ghost">
+                    Agendar Cita
+                  </Button>
+                </Link>
+                <Link to="/profile" className="flex items-center">
+                  <Avatar className="h-8 w-8">
+                    <AvatarImage src={avatarUrl || ""} />
+                    <AvatarFallback>
+                      <User className="h-4 w-4" />
+                    </AvatarFallback>
+                  </Avatar>
+                </Link>
+              </>
             )}
             {isAuthenticated ? (
               <Button
