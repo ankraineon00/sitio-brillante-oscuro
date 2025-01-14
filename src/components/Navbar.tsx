@@ -3,9 +3,17 @@ import { ThemeToggle } from "./ThemeToggle";
 import { Button } from "./ui/button";
 import { supabase } from "@/integrations/supabase/client";
 import { useToast } from "./ui/use-toast";
+import { useEffect, useState } from "react";
 
 export const Navbar = () => {
   const { toast } = useToast();
+  const [isAuthenticated, setIsAuthenticated] = useState(false);
+
+  useEffect(() => {
+    supabase.auth.onAuthStateChange((event, session) => {
+      setIsAuthenticated(!!session);
+    });
+  }, []);
 
   const handleLogout = async () => {
     try {
@@ -38,17 +46,27 @@ export const Navbar = () => {
           </Link>
 
           <div className="flex items-center space-x-4">
-            <Link to="/appointment">
-              <Button variant="ghost">
-                Agendar Cita
+            {isAuthenticated && (
+              <Link to="/appointment">
+                <Button variant="ghost">
+                  Agendar Cita
+                </Button>
+              </Link>
+            )}
+            {isAuthenticated ? (
+              <Button
+                variant="ghost"
+                onClick={handleLogout}
+              >
+                Cerrar Sesión
               </Button>
-            </Link>
-            <Button
-              variant="ghost"
-              onClick={handleLogout}
-            >
-              Cerrar Sesión
-            </Button>
+            ) : (
+              <Link to="/login">
+                <Button variant="ghost">
+                  Iniciar Sesión
+                </Button>
+              </Link>
+            )}
             <ThemeToggle />
           </div>
         </div>
